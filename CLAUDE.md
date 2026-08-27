@@ -19,6 +19,8 @@ Before writing any code, ALWAYS check the relevant doc file(s) in `/docs` first 
 
 - /docs/ui.md
 - /docs/data-fetching.md
+- /docs/data-mutations.md
+- /docs/auth.md
 
 ## Docs
 

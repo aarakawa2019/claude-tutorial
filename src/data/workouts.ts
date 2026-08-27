@@ -3,6 +3,7 @@ import "server-only";
 import { auth } from "@clerk/nextjs/server";
 
 import { db } from "@/db";
+import { workoutsTable } from "@/db/schema";
 
 export type WorkoutWithExercises = Awaited<
   ReturnType<typeof getWorkoutsForDate>
@@ -40,4 +41,22 @@ export async function getWorkoutsForDate(date: Date) {
     },
     orderBy: { startedAt: "asc" },
   });
+}
+
+export async function createWorkout(input: { name?: string; startedAt: Date }) {
+  const { userId } = await auth();
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+
+  const [workout] = await db
+    .insert(workoutsTable)
+    .values({
+      clerkUserId: userId,
+      name: input.name,
+      startedAt: input.startedAt,
+    })
+    .returning();
+
+  return workout;
 }

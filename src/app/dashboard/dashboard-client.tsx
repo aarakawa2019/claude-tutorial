@@ -1,9 +1,10 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { format, parse } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, PlusIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -53,24 +54,33 @@ export function DashboardClient({
           <h1 className="text-2xl font-semibold tracking-tight text-black dark:text-zinc-50">
             Dashboard
           </h1>
-          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger
-              render={
-                <Button variant="outline">
-                  <CalendarIcon data-icon="inline-start" />
-                  {format(selected, "dd MMM yyyy")}
-                </Button>
-              }
-            />
-            <PopoverContent className="w-auto p-0">
-              <Calendar
-                mode="single"
-                selected={selected}
-                onSelect={handleSelect}
-                autoFocus
+          <div className="flex items-center gap-2">
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger
+                render={
+                  <Button variant="outline">
+                    <CalendarIcon data-icon="inline-start" />
+                    {format(selected, "dd MMM yyyy")}
+                  </Button>
+                }
               />
-            </PopoverContent>
-          </Popover>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={selected}
+                  onSelect={handleSelect}
+                  autoFocus
+                />
+              </PopoverContent>
+            </Popover>
+            <Button
+              nativeButton={false}
+              render={<Link href="/dashboard/workout/new" />}
+            >
+              <PlusIcon data-icon="inline-start" />
+              New Workout
+            </Button>
+          </div>
         </div>
 
         <div className="flex flex-col gap-4">
