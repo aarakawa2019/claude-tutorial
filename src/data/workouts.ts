@@ -1,6 +1,7 @@
 import "server-only";
 
 import { auth } from "@clerk/nextjs/server";
+import { and, eq } from "drizzle-orm";
 
 import { db } from "@/db";
 import { workoutsTable } from "@/db/schema";
@@ -56,6 +57,48 @@ export async function createWorkout(input: { name?: string; startedAt: Date }) {
       name: input.name,
       startedAt: input.startedAt,
     })
+    .returning();
+
+  return workout;
+}
+
+export async function getWorkoutById(id: number) {
+  const { userId } = await auth();
+  if (!userId) {
+    return null;
+  }
+
+  const workout = await db.query.workoutsTable.findFirst({
+    where: {
+      id,
+      clerkUserId: userId,
+    },
+  });
+
+  return workout ?? null;
+}
+
+export async function updateWorkout(
+  id: number,
+  input: { name?: string; startedAt: Date },
+) {
+  const { userId } = await auth();
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+
+  const [workout] = await db
+    .update(workoutsTable)
+    .set({
+      name: input.name,
+      startedAt: input.startedAt,
+    })
+    .where(
+      and(
+        eq(workoutsTable.id, id),
+        eq(workoutsTable.clerkUserId, userId),
+      ),
+    )
     .returning();
 
   return workout;

@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { format, parse } from "date-fns";
-import { CalendarIcon, PlusIcon } from "lucide-react";
+import { CalendarIcon, PencilIcon, PlusIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -88,9 +88,20 @@ export function DashboardClient({
             <Card key={workout.id}>
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle>{workout.name ?? "Workout"}</CardTitle>
-                <span className="text-sm text-zinc-500 dark:text-zinc-400">
-                  {format(new Date(workout.startedAt), "h:mm a")}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-zinc-500 dark:text-zinc-400">
+                    {format(new Date(workout.startedAt), "h:mm a")}
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    nativeButton={false}
+                    render={<Link href={`/dashboard/workout/${workout.id}`} />}
+                  >
+                    <PencilIcon />
+                    <span className="sr-only">Edit workout</span>
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent className="flex flex-col gap-3">
                 {workout.workoutExercises.map((workoutExercise, index) => {

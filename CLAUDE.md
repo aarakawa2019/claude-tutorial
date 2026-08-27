@@ -21,6 +21,8 @@ Before writing any code, ALWAYS check the relevant doc file(s) in `/docs` first 
 - /docs/data-fetching.md
 - /docs/data-mutations.md
 - /docs/auth.md
+- /docs/server-components.md
+- /docs/routing.md
 
 ## Docs
 
