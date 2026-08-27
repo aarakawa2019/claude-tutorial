@@ -15,9 +15,10 @@ No test runner is configured yet.
 
 ## Code Generation Guidelines
 
-Before writing any code, ALWAYS check the relevant doc file(s) in `/docs` first (e.g. `docs/ui.md` for UI work) and follow their guidance.
+Before writing any code, ALWAYS check the relevant doc file(s) in `/docs` first (e.g. `docs/ui.md` for UI work) and follow their guidance:
 
 - /docs/ui.md
+- /docs/data-fetching.md
 
 ## Docs
 
