@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { format, parse } from "date-fns";
-import { PencilIcon, PlusIcon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -64,58 +64,51 @@ export function DashboardClient({
 
           <div className="flex flex-col gap-4">
             {workouts.map((workout) => (
-              <Card key={workout.id}>
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle>{workout.name ?? "Workout"}</CardTitle>
-                  <div className="flex items-center gap-2">
+              <Link
+                key={workout.id}
+                href={`/dashboard/workout/${workout.id}`}
+                className="block transition-opacity hover:opacity-80"
+              >
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle>{workout.name ?? "Workout"}</CardTitle>
                     <span className="text-sm text-zinc-500 dark:text-zinc-400">
                       {format(new Date(workout.startedAt), "h:mm a")}
                     </span>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      nativeButton={false}
-                      render={
-                        <Link href={`/dashboard/workout/${workout.id}`} />
-                      }
-                    >
-                      <PencilIcon />
-                      <span className="sr-only">Edit workout</span>
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent className="flex flex-col gap-3">
-                  {workout.workoutExercises.map((workoutExercise, index) => {
-                    const totalSets = workoutExercise.sets.length;
-                    const repsSummary =
-                      workoutExercise.sets[0]?.reps !== undefined
-                        ? workoutExercise.sets[0].reps
-                        : 0;
-                    const weightSummary =
-                      workoutExercise.sets[0]?.weight !== undefined
-                        ? workoutExercise.sets[0].weight
-                        : 0;
-                    return (
-                      <div key={workoutExercise.id}>
-                        {index > 0 && <Separator className="mb-3" />}
-                        <div className="flex items-center justify-between">
-                          <span className="font-medium text-black dark:text-zinc-50">
-                            {workoutExercise.exercise?.name}
-                          </span>
-                          <div className="flex items-center gap-2">
-                            <Badge variant="secondary">
-                              {totalSets} x {repsSummary}
-                            </Badge>
-                            <Badge variant="secondary">
-                              {weightSummary} lb
-                            </Badge>
+                  </CardHeader>
+                  <CardContent className="flex flex-col gap-3">
+                    {workout.workoutExercises.map((workoutExercise, index) => {
+                      const totalSets = workoutExercise.sets.length;
+                      const repsSummary =
+                        workoutExercise.sets[0]?.reps !== undefined
+                          ? workoutExercise.sets[0].reps
+                          : 0;
+                      const weightSummary =
+                        workoutExercise.sets[0]?.weight !== undefined
+                          ? workoutExercise.sets[0].weight
+                          : 0;
+                      return (
+                        <div key={workoutExercise.id}>
+                          {index > 0 && <Separator className="mb-3" />}
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium text-black dark:text-zinc-50">
+                              {workoutExercise.exercise?.name}
+                            </span>
+                            <div className="flex items-center gap-2">
+                              <Badge variant="secondary">
+                                {totalSets} x {repsSummary}
+                              </Badge>
+                              <Badge variant="secondary">
+                                {weightSummary} lb
+                              </Badge>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </CardContent>
-              </Card>
+                      );
+                    })}
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
 
             {workouts.length === 0 && (
