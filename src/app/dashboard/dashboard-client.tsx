@@ -4,7 +4,8 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { format, parse } from "date-fns";
-import { PencilIcon, PlusIcon } from "lucide-react";
+import { LogOutIcon, PencilIcon, PlusIcon } from "lucide-react";
+import { SignOutButton } from "@clerk/nextjs";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -53,13 +54,21 @@ export function DashboardClient({
             <h1 className="text-2xl font-semibold tracking-tight text-black dark:text-zinc-50">
               Dashboard
             </h1>
-            <Button
-              nativeButton={false}
-              render={<Link href="/dashboard/workout/new" />}
-            >
-              <PlusIcon data-icon="inline-start" />
-              New Workout
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                nativeButton={false}
+                render={<Link href="/dashboard/workout/new" />}
+              >
+                <PlusIcon data-icon="inline-start" />
+                New Workout
+              </Button>
+              <SignOutButton>
+                <Button variant="outline">
+                  <LogOutIcon data-icon="inline-start" />
+                  Log out
+                </Button>
+              </SignOutButton>
+            </div>
           </div>
 
           <div className="flex flex-col gap-4">
