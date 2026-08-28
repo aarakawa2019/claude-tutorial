@@ -2,6 +2,7 @@ import Image from "next/image";
 import { SignInButton, SignUpButton, Show, UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export default async function Home() {
   const { userId } = await auth();
@@ -24,8 +25,12 @@ export default async function Home() {
           />
           <div className="flex items-center gap-4">
             <Show when="signed-out">
-              <SignInButton mode="modal" />
-              <SignUpButton mode="modal" />
+              <SignInButton mode="modal">
+                <Button variant="outline">Sign In</Button>
+              </SignInButton>
+              <SignUpButton mode="modal">
+                <Button>Sign Up</Button>
+              </SignUpButton>
             </Show>
             <Show when="signed-in">
               <UserButton />
